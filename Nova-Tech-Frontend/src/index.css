@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: all;
+}
+
+@layer components {
+
+  /* Active dot styling */
+  .slick-dots li.slick-active div {
+    @apply bg-orange-500 scale-150;
+  }
+
+  /* Smooth animation */
+  .slick-dots li div {
+    @apply transition-all duration-300;
+  }
+}
+
