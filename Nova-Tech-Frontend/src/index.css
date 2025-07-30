@@ -8,7 +8,7 @@
 
   /* Active dot styling */
   .slick-dots li.slick-active div {
-    @apply bg-orange-500 scale-150;
+    @apply bg-blue-500 scale-150;
   }
 
   /* Smooth animation */

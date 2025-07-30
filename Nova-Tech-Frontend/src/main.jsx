@@ -21,6 +21,11 @@ import AdminDashboard from './Dashboard/Home/AdminDashboard.jsx'
 import { Support } from './Support/Support.jsx'
 import { Queries } from './Dashboard/Queries/Queries.jsx'
 import { DashboardBanner } from './Dashboard/Dashboar Banner/DashboardBanner.jsx'
+import { Blog } from './Blog/Blog.jsx'
+import { Catelogue } from './Catelog/Catelogue.jsx'
+import { DashboardCertificate } from './Dashboard/Dashboard Certificate/DashboardCertificate.jsx'
+import { CatelogueQueries } from './Catelogue Queries/CatelogueQueries.jsx'
+import { DashboardBlog } from './Dashboard/Dashboard Blog/DashboardBlog.jsx'
 
 
 
@@ -64,6 +69,18 @@ const router = createBrowserRouter([
         element: <AllProducts></AllProducts>
       },
       {
+        path: "/blog",
+        element: <Blog></Blog>
+      },
+      {
+        path: "/catalogue",
+        element: <Catelogue></Catelogue>
+      },
+      {
+        path: "/blog/:blogId",
+        element: <Blog></Blog>
+      },
+      {
         path: "/dashboard",
         element: <Dashboard></Dashboard>,
         children:[
@@ -86,7 +103,19 @@ const router = createBrowserRouter([
           {
             path:'/dashboard/banners',
             element:<DashboardBanner></DashboardBanner>
-          }
+          },
+          {
+            path: '/dashboard/blog',
+            element: <DashboardBlog></DashboardBlog>
+          },
+          {
+            path: '/dashboard/certificate',
+            element: <DashboardCertificate></DashboardCertificate>
+          },
+          {
+            path: '/dashboard/catalogue',
+            element: <CatelogueQueries></CatelogueQueries>
+          },
         ]
       }
 

@@ -39,7 +39,7 @@ export const Profile = () => {
                 </div>
             </div>
 
-            <div className='max-w-[1340px] mx-auto px-5 my-10'>
+            <div className='max-w-[1340px] mx-auto  my-10'>
                 <StepToUse></StepToUse>
             </div>
 

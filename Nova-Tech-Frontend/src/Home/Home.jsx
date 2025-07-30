@@ -8,18 +8,28 @@ import { StaticBanner } from '../Shared Components/Banner/StaticBanner'
 import { useOutletContext } from 'react-router'
 
 import CenterMode from '../Shared Components/Banner/Slider Banner/CenterMode'
+import { WhyChooseUs } from '../Why Choose Us/WhyChooseUs'
+import GlobalReachMap from '../Global Map/GlobalReachMap'
+import TestimonialsSlider from '../Testimonials/Testimonials'
+import { Certificate } from '../Certificate/Certificate'
 
 
 export const Home = () => {
 
-    const context=useOutletContext()
+    const context = useOutletContext()
     return (
         <div className='space-y-10'>
             <CenterMode></CenterMode>
-            <SliderContent></SliderContent>
+            <WhyChooseUs></WhyChooseUs>
+            {/* <SliderContent></SliderContent> */}
+
             <Categories categories={context.categories}></Categories>
+
+            <GlobalReachMap></GlobalReachMap>
             <StaticBanner></StaticBanner>
+            <Certificate></Certificate>
             <Recommended></Recommended>
+            <TestimonialsSlider></TestimonialsSlider>
 
         </div>
     )

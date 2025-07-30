@@ -41,7 +41,7 @@ export const Categories = ({ categories }) => {
   const navigate = useNavigate();
 
   const settings = {
-    dots: true,
+
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -85,7 +85,7 @@ export const Categories = ({ categories }) => {
   return (
     <section className="max-w-[1340px] mx-auto px-3 space-y-5">
       <div className="text-center">
-        <p className="font-bold text-3xl text-gray-700">Categories</p>
+        <p className="font-bold md:text-5xl text-3xl text-gray-700">Our Products</p>
       </div>
       <div className="slider-container relative rounded-lg space-y-10">
         {/* React Slick Slider */}

@@ -17,7 +17,6 @@ export const Recommended = () => {
     }, [products]);
 
     const settings = {
-        dots: true,
         infinite: true,
         slidesToShow: products && products.length > 4 ? 4 : products && products.length,
         slidesToScroll: 1,

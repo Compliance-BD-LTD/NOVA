@@ -65,9 +65,9 @@ export const ProductCard = ({ item }) => {
 
   return (
     <div className='md:p-3'>
-      <div className='bg-gray-200 group relative flex items-center justify-center font-semibold p-5 cursor-pointer rounded-xl'>
-        <div onClick={() => navigate(`/products/${item?.model}`)}>
-          <img loading="lazy" src={item?.imageUrl[0]} className='w-[300px] h-[200px] rounded-xl ' alt="" />
+      <div className='bg-white border-3 border-gray-200  group relative flex items-center justify-center font-semibold p-5 cursor-pointer rounded-xl'>
+        <div onClick={() => navigate(`/products/${item?.model}`)} className='w-[300px] '  >
+          <img loading="lazy" src={item?.imageUrl[0]} className='w-full  rounded-xl ' alt="" />
           <p className='text-xl tooltip max-sm:hidden'  data-tip={item?.model}>{item?.model?.slice(0,10).toUpperCase()} {item?.model.length>20 && (
             <span>
               ...

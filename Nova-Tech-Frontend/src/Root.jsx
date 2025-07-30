@@ -15,7 +15,10 @@ export const Root = () => {
   const [products, setProducts] = useState(null)
   const [categories, setCategories] = useState(null)
   const [queries, setQueries] = useState([])
-  const [banners,setBanners]=useState([])
+  const [banners, setBanners] = useState([])
+  const [blogs, setBlogs] = useState([])
+  const [certificate, setCertificate] = useState(null)
+  const [cataLogue, setCatalogue] = useState(null)
   const dispatch = useDispatch()
   const admin = useSelector((state) => state.NovaTech.users)
 
@@ -26,8 +29,14 @@ export const Root = () => {
     setProducts: setProducts,
     queries: queries,
     setQueries: setQueries,
-    banners:banners,
-    setBanners:setBanners
+    banners: banners,
+    setBanners: setBanners,
+    cataLogue: cataLogue,
+    setCatalogue: setCatalogue,
+    certificate: certificate,
+    setCertificate: setCertificate,
+    blogs: blogs,
+    setBlogs: setBlogs,
   }
 
   useEffect(() => {
@@ -70,12 +79,12 @@ export const Root = () => {
       .catch((err) => console.log(err))
 
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getBanners`)
-    .then((res) => {
-      if (res.status == 200) {
-       setBanners(res.data.data)
-      }
-    })
-    .catch((err) => console.log(err))
+      .then((res) => {
+        if (res.status == 200) {
+          setBanners(res.data.data)
+        }
+      })
+      .catch((err) => console.log(err))
   }, [])
 
   useEffect(() => {
@@ -92,6 +101,29 @@ export const Root = () => {
       .catch((err) => console.log(err))
 
 
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getCatalogue`)
+      .then((res) => {
+        if (res.status == 200) {
+
+          setCatalogue(res.data.data)
+
+
+        }
+      })
+      .catch((err) => console.log(err))
+
+
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getBlogs`)
+      .then((res) => {
+        if (res.status == 200) {
+
+          setBlogs(res.data.data)
+
+
+        }
+      })
+      .catch((err) => console.log(err))
+
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getQueries`)
       .then((res) => setQueries(res.data.data))
       .catch((err) => {
@@ -101,6 +133,20 @@ export const Root = () => {
 
         });
       })
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getCertificate`)
+      .then((res) =>
+
+
+        setCertificate(res.data.data)
+      )
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: err.message,
+
+        });
+      })
+
 
   }, [])
 

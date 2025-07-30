@@ -6,11 +6,14 @@ const { Categories } = require("../Model/Categories")
 const { Products } = require("../Model/Prodcuts")
 const { Logo } = require("../Model/logo")
 const { Banners } = require("../Model/Banners")
-
+const { Catalogue } = require("../Model/catalogue")
+const { Certificates } = require("../Model/certificates")
+const { Blogs } = require("../Model/Blogs")
+const { deleteImage } = require("../Functions/helperFunctions")
 const getProducts = async (req, res) => {
 
     try {
-        const data = await Products.find({}).sort({createdAt:-1}).lean()
+        const data = await Products.find({}).sort({ createdAt: -1 }).lean()
         res.send(data)
     } catch (error) {
         res.send({
@@ -288,6 +291,49 @@ exports.hello = (req, res) => {
 }
 
 
+const deleteCatalogue = async (req, res) => {
+
+    const { id } = req.body
+
+    const search = await Catalogue.findOne({ _id: id }).lean()
+
+    if (search) {
+        const delImage = await deleteImage(search.imageUrl)
+        const delPdf = search.pdf.length > 0 ? await deleteImage([search.pdf]) : true
+
+        if (delImage && delPdf) {
+            const del = await Catalogue.deleteOne({ _id: id })
+
+            try {
+                if (del) {
+                    const data = await Catalogue.find({}).sort({ createdAt: -1 }).lean()
+                    return res.status(200).send({
+                        "message": "Product Deleted Successfully",
+                        data: data
+                    })
+                } else {
+                    return res.status(403).send({
+                        "message": "Couldn't Delete it"
+                    })
+                }
+
+            } catch (error) {
+                res.send(error.message)
+            }
+        }
+
+        return res.status(403).send({
+            "message": "Couldn't Delete it From Cloud"
+        })
+    }
+    return res.status(403).send({
+        "message": "Couldn't Find it"
+    })
+
+
+
+}
+
 const updateProduct = async (req, res) => {
     try {
         const files = req.files || {};
@@ -373,6 +419,60 @@ const getBanners = async (req, res) => {
             message: error.message
         })
     }
+
+}
+const getBlogs = async (req, res) => {
+    try {
+        const result = await Blogs.find({}).lean()
+        if (result) {
+            return res.send({
+
+                'data': result
+            })
+        }
+        return res.status(401).send({
+            'message': 'Coulndt find data',
+        })
+    } catch (error) {
+
+    }
+}
+
+const getCatalogue = async (req, res) => {
+    try {
+        const data = await Catalogue.find({}).sort({ createdAt: -1 }).lean()
+        if (data) {
+            return res.send({
+                data: data
+            })
+        }
+        return res.status(404).send({
+            message: 'No Catalogue Found'
+        })
+    } catch (error) {
+        return res.status(500).send({
+            message: error.message
+        })
+    }
+}
+
+
+const getCertificate = async (req, res) => {
+    try {
+
+        const data = await Certificates.find({}).lean()
+        if (data) {
+            res.send({
+                data: data
+            })
+        }
+
+    } catch (error) {
+        res.send({
+            "message": error.message
+        })
+    }
+
 
 }
 
@@ -582,8 +682,229 @@ const deleteProduct = async (req, res) => {
 
 }
 
+const deleteBlog = async (req, res) => {
+
+    const { id } = req.body
+    const search = await Blogs.findOne({ _id: id }).lean()
+
+    const delImage = await deleteImage(search.imageUrl)
+
+    if (delImage) {
+        const del = await Blogs.deleteOne({ _id: id })
+        try {
+            if (del) {
+                const data = await Blogs.find({}).lean()
+                return res.status(200).send({
+                    "message": "Product Deleted Successfully",
+                    data: data
+                })
+            } else {
+                res.status(403).send({
+                    "message": "Couldn't Delete it From Database"
+                })
+            }
+
+        } catch (error) {
+            res.send(error.message)
+        }
+    } else {
+        return res.status(500).send({
+            message: "Coundn't delete it from Cloude"
+        })
+    }
+
+
+
+}
+
+const deleteCertificate = async (req, res) => {
+    try {
+
+        const { id } = req.body
+
+
+        const search = await Certificates.find({ _id: id }).lean()
+
+
+
+
+
+        if (search.length > 0) {
+
+            const delImage = await deleteImage(search[0].imageUrl)
+            console.log('Search', deleteImage);
+
+
+
+
+
+            if (!delelteImage) {
+                return res.status(401).send({
+                    'message': 'Error Deleting Image'
+                })
+            }
+            const dlt = await Certificates.deleteOne({ _id: id })
+            if (dlt) {
+                const data = await Certificates.find({}).lean()
+                return res.send({
+                    'message': 'Certificate Deleted Successfully',
+                    data: data
+                })
+            } else {
+                return res.send({
+                    'message': 'Couldnt Delete it'
+                })
+            }
+
+        }
+        return res.send({
+            'message': 'Certificate Doesnt Exist'
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            'message': 'Error Deleting Certificates'
+        })
+    }
+}
+
+const AddBlog = async (req, res) => {
+    try {
+
+        const { Info } = req.body
+        const info = JSON.parse(Info)
+
+        const files = req.files
+
+        const imageUrl = await uploadImages(files.images)
+        info.imageUrl = imageUrl
+
+        const newBlog = new Blogs(info)
+
+        const result = await newBlog.save()
+
+        const AllBlogs = await Blogs.find({}).lean()
+        if (result) {
+            return res.send({
+                'message': 'Uploaded Successfully',
+                'data': AllBlogs
+            })
+        }
+        return res.status(401).send({
+            'message': 'Uploaded Failed',
+            'data': AllBlogs
+        })
+
+
+
+
+    } catch (error) {
+        return res.status(500).send({
+            'message': 'Server Error',
+
+        })
+    }
+}
+
+const addCertificate = async (req, res) => {
+    try {
+
+        const files = req.files
+        const name = req.body.name
+
+        const search = await Certificates.find({ name: name }).lean()
+        if (search.length > 0) {
+            return res.send({
+                'message': 'This Certificate Exists'
+            })
+
+        }
+
+        const data = {
+            name,
+            imageUrl: '',
+
+        }
+        data.imageUrl = await uploadImages(files.image)
+
+
+
+
+        const addCertificate = new Certificates(data)
+
+        const result = await addCertificate.save()
+        const certificates = await Certificates.find({}).sort({ createdAt: -1 })
+
+
+        if (result) {
+            res.send({
+                'message': 'New Categpory Added',
+                data: certificates
+
+            })
+        } else {
+            res.status(400).send({
+                'message': 'Couldnt Add it',
+                data: certificates
+
+            })
+        }
+
+    } catch (error) {
+        console.log('err', error.message)
+        res.status(500).send({
+            'message': error.message
+        })
+    }
+
+
+}
+const addCatalogue = async (req, res) => {
+
+
+    try {
+
+        const { name } = req.body
+        const { image, pdf } = req.files
+
+
+
+        if (!name || !image) {
+            return res.status(400).send({
+                message: 'Name, Image and PDF are required'
+            })
+        }
+
+
+        const imageUrl = await uploadImages(image)
+        const pdfUrl = (pdf && await pdfUpload(pdf[0])) || ""
+
+        const add = new Catalogue({ name, imageUrl, pdf: pdfUrl })
+
+        const result = await add.save()
+        if (result) {
+
+            const catalogues = await Catalogue.find({}).sort({ createdAt: -1 }).lean()
+
+            return res.send({
+                message: 'Catalogue Added Successfully',
+                data: catalogues
+            })
+        }
+
+        return res.status(401).send({
+            message: 'Error Adding Catalogue'
+        })
+
+    } catch (error) {
+        return res.status(500).send({
+            message: error.message
+        })
+    }
+}
+
 
 
 module.exports = {
-    deleteBanner, uploadBanner, getBanners, pdfUpload, getLogo, downloadPdfFiles, getProducts, addProduct, deleteProduct, getCategories, addCategory, deleteCategory, updateProduct, updateCategory
+    getBlogs, AddBlog, getCertificate, getCatalogue, addCatalogue, addCertificate, deleteBanner, deleteBlog, deleteCertificate, uploadBanner, deleteCatalogue, getBanners, pdfUpload, getLogo, downloadPdfFiles, getProducts, addProduct, deleteProduct, getCategories, addCategory, deleteCategory, updateProduct, updateCategory
 }

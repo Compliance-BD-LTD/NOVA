@@ -46,4 +46,15 @@ export const capitalizeWords=(sentence)=>{
     return sentence.split(' ').map(word => capitalizeFirstLetter(word)).join(' ');
   }
 
+  export const formatDateToDayMonth=(dateStr)=> {
+    const date = new Date(dateStr);
+    // Array of month names, adjust as needed for localization
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    return `${day} ${month}`;
+  }
 

@@ -54,7 +54,7 @@ export const Navbar = ({ products, categories }) => {
 
 
     return (
-        <div className='relative'>
+        <div className='relative '>
             {/* Main Navbar */}
             <div className="navbar bg-base-100 shadow-sm md:px-10 px-5 z-20 sticky top-0">
                 <div className="navbar-start space-x-4">
@@ -78,7 +78,7 @@ export const Navbar = ({ products, categories }) => {
                                 className="relative cursor-pointer flex items-center gap-1"
                                 onClick={() => setShowMegaBar(!showMegaBar)}
                             >
-                                Categories
+                                Products
                                 <FontAwesomeIcon
                                     icon={faChevronDown}
                                     className={`transition-transform duration-300 ${showMegaBar ? "rotate-180" : ""}`}
@@ -98,6 +98,12 @@ export const Navbar = ({ products, categories }) => {
                         </li>
                         <li className={location.pathname === "/contact" ? "border-b-2 border-blue-500" : ""}>
                             <Link to="/contact">Contact Us</Link>
+                        </li>
+                        <li className={` ${location.pathname === "/blog" ?  "border-b-2 border-blue-500" : ""}`}>
+                            <Link to="/blog">Blog</Link>
+                        </li>
+                        <li className={` ${location.pathname === "/catelog" ?  "border-b-2 border-blue-500" : ""}`}>
+                            <Link  to="/catalogue">Catalogue</Link>
                         </li>
                         {
                             user && (<li className={location.pathname === "/dashboard" ? "border-b-2 border-blue-500" : ""}><Link to={"/dashboard"} >Dashboard</Link></li>)
@@ -138,7 +144,7 @@ export const Navbar = ({ products, categories }) => {
                         {categories && categories.map((item, index) => (
                             <div
                                 key={index}
-                                className='overflow-hidden cursor-pointer flex flex-col items-center'
+                                className='overflow-hidden group cursor-pointer flex flex-col items-center'
                                 onClick={() => { setShowMegaBar(false); navigate(`/category/${urlConverter(item?.name)}`); }}
                             >
                                 <img
@@ -147,7 +153,7 @@ export const Navbar = ({ products, categories }) => {
                                     className='w-[200px] rounded-md h-[100px] object-cover mb-2'
                                     alt={item?.name}
                                 />
-                                <Link className="text-center w-full" to={`/category/${urlConverter(item?.category)}`}>
+                                <Link className="text-center group-hover:underline w-full" to={`/category/${urlConverter(item?.category)}`}>
                                     {capitalizeWords(item?.name)}
                                 </Link>
                             </div>
