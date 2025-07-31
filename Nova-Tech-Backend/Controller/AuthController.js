@@ -24,7 +24,6 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body
-
         const find = await Admin.find({ email: email })
         if (find) {
             const result=await bcrypt.compare(password,find[0].password)

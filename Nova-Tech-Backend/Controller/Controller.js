@@ -9,7 +9,7 @@ const { Banners } = require("../Model/Banners")
 const { Catalogue } = require("../Model/catalogue")
 const { Certificates } = require("../Model/certificates")
 const { Blogs } = require("../Model/Blogs")
-const {deleteImage  } = require("../Functions/HelperFunctions")
+const {delImg}=require('../Functions/HelperFunctions')
 const getProducts = async (req, res) => {
 
     try {
@@ -298,8 +298,8 @@ const deleteCatalogue = async (req, res) => {
     const search = await Catalogue.findOne({ _id: id }).lean()
 
     if (search) {
-        const delImage = await deleteImag(search.imageUrl)
-        const delPdf = search.pdf.length > 0 ? await deleteImage([search.pdf]) : true
+        const delImage = await delImg(search.imageUrl)
+        const delPdf = search.pdf.length > 0 ? await delImg([search.pdf]) : true
 
         if (delImage && delPdf) {
             const del = await Catalogue.deleteOne({ _id: id })
@@ -687,7 +687,7 @@ const deleteBlog = async (req, res) => {
     const { id } = req.body
     const search = await Blogs.findOne({ _id: id }).lean()
 
-    const delImage = await deleteImage(search.imageUrl)
+    const delImage = await delImg(search.imageUrl)
 
     if (delImage) {
         const del = await Blogs.deleteOne({ _id: id })
@@ -731,8 +731,8 @@ const deleteCertificate = async (req, res) => {
 
         if (search.length > 0) {
 
-            const delImage = await deleteImage(search[0].imageUrl)
-            console.log('Search', deleteImage);
+            const delImage = await delImg(search[0].imageUrl)
+            console.log('Search', delImg);
 
 
 

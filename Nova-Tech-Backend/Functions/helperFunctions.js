@@ -1,7 +1,7 @@
 
 const { cloudinary } = require("../Cloudinary/cloudinary");
 const { extractPublicId } = require("cloudinary-build-url");
-const deleteImage = async (imageUrl) => {
+const delImg = async (imageUrl) => {
 
     let publicKey = []
     imageUrl.forEach(url => {
@@ -25,5 +25,5 @@ const deleteImage = async (imageUrl) => {
 // deleteImage(['https://res.cloudinary.com/des05ruq7/image/upload/v1753681284/r0aqj9ahdfnxkkosup3e.pdf'])
 
 module.exports = {
-    deleteImage
+    delImg
 }
