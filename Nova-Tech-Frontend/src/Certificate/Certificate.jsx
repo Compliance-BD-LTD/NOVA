@@ -45,7 +45,6 @@ export const Certificate = () => {
 
     }, [])
 
-    console.log('Certificate',certificate);
     
 
     return (

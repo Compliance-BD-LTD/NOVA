@@ -9,7 +9,7 @@ const { Banners } = require("../Model/Banners")
 const { Catalogue } = require("../Model/catalogue")
 const { Certificates } = require("../Model/certificates")
 const { Blogs } = require("../Model/Blogs")
-const { deleteImage } = require("../Functions/helperFunctions")
+const {deleteImage  } = require("../Functions/HelperFunctions")
 const getProducts = async (req, res) => {
 
     try {
@@ -298,7 +298,7 @@ const deleteCatalogue = async (req, res) => {
     const search = await Catalogue.findOne({ _id: id }).lean()
 
     if (search) {
-        const delImage = await deleteImage(search.imageUrl)
+        const delImage = await deleteImag(search.imageUrl)
         const delPdf = search.pdf.length > 0 ? await deleteImage([search.pdf]) : true
 
         if (delImage && delPdf) {
