@@ -180,10 +180,10 @@ const pdfUpload = async (file) => {
 
         return uploadToCloudinary.secure_url;
     } catch (error) {
-       return res.status(500).send({
-            message: error.message,
-    })
-}
+        throw new Error(`PDF upload failed: ${error.message}`);
+    }
+
+
 };
 
 
@@ -892,6 +892,9 @@ const addCatalogue = async (req, res) => {
         })
 
     } catch (error) {
+
+
+        console.error("Upload error:", error);
         return res.status(500).send({
             message: error.message
         })
