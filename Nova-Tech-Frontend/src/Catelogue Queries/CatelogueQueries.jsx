@@ -15,11 +15,11 @@ import Swal from 'sweetalert2'
 export const CatelogueQueries = () => {
     const { queries } = useOutletContext()
     const [description, setDescription] = useState(null)
-
+    const [loading, setLoading] = useState(false)
     const { cataLogue, setCatalogue } = useOutletContext()
 
     const location = useLocation()
-    const handleDelete = (post) => {
+    const handleDelete = async (post) => {
 
         if (post) {
             const formData = {
@@ -31,11 +31,15 @@ export const CatelogueQueries = () => {
                 title: `Do you want Delete ${post.name}  Catalogue 😔 ?`,
                 showDenyButton: true,
                 confirmButtonText: "Save",
-            }).then((result) => {
+            }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
+                    
+                    
+                    setLoading(true)
 
-                    axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deleteCatalogue`, { data: { id: post._id } })
+                    
+                    await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deleteCatalogue`, { data: { id: post._id } })
                         .then((res) => {
                             if (res.status == 200) {
                                 Swal.fire({
@@ -48,10 +52,10 @@ export const CatelogueQueries = () => {
                                 setCatalogue(res.data.data);
 
                             }
-                            else if (res.status==403){
+                            else if (res.status == 403) {
                                 Swal.fire({
                                     icon: "error",
-                                    title:`${res.data.message}`
+                                    title: `${res.data.message}`
                                 })
                             }
 
@@ -66,8 +70,9 @@ export const CatelogueQueries = () => {
 
                             });
                         })
+                    setLoading(false)
 
-                } 
+                }
             });
 
         } else {
@@ -106,8 +111,8 @@ export const CatelogueQueries = () => {
                     cataLogue && cataLogue.map((item, index) => {
                         return (
                             <section className=' relative  group' key={index}  >
-                                <div className="w-[300px] cursor-pointer hover:scale-105 transition-all duration-300 " onClick={() => window.location.href = item?.pdf}>
-                                    <img src={item?.imageUrl[0]} alt="" />
+                                <div className="w-[300px] cursor-pointer hover:scale-105 transition-all duration-300 " onClick={() => !loading ? window.location.href = item?.pdf : ''}>
+                                    <img src={item?.imageUrl[0]} alt="" className={`${loading && `opacity-50`}`} />
                                     <div className="group">
                                         <p className="group-hover:underline text-lg text-center font-semibold text-gray-700">{item?.name}  <FontAwesomeIcon icon={faDownload} > </FontAwesomeIcon></p>
                                     </div>
@@ -122,14 +127,36 @@ export const CatelogueQueries = () => {
                                                 Update
                                             </button>
                                         )}
-                                        <button
-                                            className="btn btn-error btn-dash px-1 rounded-sm"
-                                            onClick={() => handleDelete(item)}
-                                        >
-                                            Delete?
-                                        </button>
+
+                                        {
+                                            !loading && (
+                                                <button
+                                                    className="btn btn-error btn-dash px-1 rounded-sm"
+                                                    onClick={() => !loading ? handleDelete(item) : ''}
+                                                >
+                                                    Delete?
+                                                </button>
+
+                                            )
+                                        }
+
+
+
+
+
                                     </div>
                                 )}
+
+
+                                {
+                                    loading && (
+                                        <div className='absolute top-1/2 left-1/2  transform -translate-x-1/2 text-gray-900  -translate-y-1/2  '>
+                                            <span className="loading loading-spinner w-[50px] "></span>
+                                        </div>
+                                    )
+
+
+                                }
 
 
 

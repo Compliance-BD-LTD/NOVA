@@ -105,8 +105,7 @@ const TestimonialsSlider = () => {
     }, []);
     return (
         <section
-            // data-aos="fade-up"
-            // data-aos-duration="1500"
+
             className="w-full py-14 max-w-[1340px] mx-auto flex flex-col items-center bg-white"
         >
             <div className="w-full mx-auto px-2">

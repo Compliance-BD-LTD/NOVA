@@ -9,7 +9,7 @@ const { Banners } = require("../Model/Banners")
 const { Catalogue } = require("../Model/catalogue")
 const { Certificates } = require("../Model/certificates")
 const { Blogs } = require("../Model/Blogs")
-const {delImg}=require('../Functions/HelperFunctions')
+const { delImg } = require('../Functions/HelperFunctions')
 const getProducts = async (req, res) => {
 
     try {
@@ -160,38 +160,33 @@ const addProduct = async (req, res) => {
 
 const pdfUpload = async (file) => {
 
-    const uploadToCloudinary = await cloudinary.uploader.upload(file.path, {
-        resource_type: 'raw',
-        public_id: `pdfs/${Date.now()}-${file.originalname}`,
-        format: 'pdf', // force .pdf format
-        use_filename: true,
-        unique_filename: false
-    })
+    try {
+        const uploadToCloudinary = await cloudinary.uploader.upload(file.path, {
+            resource_type: 'raw',
+            public_id: `pdfs/${Date.now()}-${file.originalname}`,
+            format: 'pdf',
+            use_filename: true,
+            unique_filename: false,
+        });
 
-
-
-    if (uploadToCloudinary) {
-
-        if (!(uploadToCloudinary.format == 'pdf')) {
-            let url = uploadToCloudinary.secure_url
+        if (!(uploadToCloudinary.format === 'pdf')) {
+            let url = uploadToCloudinary.secure_url;
             for (let index = url.length - 1; index >= 0; index--) {
-                if (url[index] == '.') {
-                    let temp = url.slice(0, index)
-                    temp += '.pdf'
-                    return temp
+                if (url[index] === '.') {
+                    return url.slice(0, index) + '.pdf';
                 }
-
             }
-
         }
 
-        return uploadToCloudinary.secure_url
-    } else {
-        return null
-    }
-
-
+        return uploadToCloudinary.secure_url;
+    } catch (error) {
+       return res.status(500).send({
+            message: error.message,
+    })
 }
+};
+
+
 const uploadImages = async (files) => {
     const imageUrls = [];
     for (const file of files) {
