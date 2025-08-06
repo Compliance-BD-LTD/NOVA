@@ -727,13 +727,13 @@ const deleteCertificate = async (req, res) => {
         if (search.length > 0) {
 
             const delImage = await delImg(search[0].imageUrl)
-            console.log('Search', delImg);
+            console.log('Search', delImage);
 
 
 
 
 
-            if (!delelteImage) {
+            if (!delImage) {
                 return res.status(401).send({
                     'message': 'Error Deleting Image'
                 })

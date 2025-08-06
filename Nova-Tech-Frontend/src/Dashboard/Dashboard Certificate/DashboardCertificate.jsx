@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router'
 import { capitalizeWords, urlConverter } from '../../Functions/functions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,7 @@ import { CertificateUpload } from '../FileUpload/CertificateUpload';
 
 export const DashboardCertificate = () => {
     const { certificate, setCertificate } = useOutletContext();
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
 
     const handleClick = (item) => {
@@ -31,6 +32,10 @@ export const DashboardCertificate = () => {
                 confirmButtonText: "Save",
             }).then((result) => {
                 if (result.isConfirmed) {
+
+                    setLoading(item._id)
+
+                
                     axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deleteCertificate`, { data: { id: item._id } })
                         .then((res) => {
                             Swal.fire({
@@ -47,13 +52,14 @@ export const DashboardCertificate = () => {
                                 text: error.message
                             });
                         })
-                } else if (result.isDenied) {
-                    Swal.fire("Changes are not saved", "", "info");
-                }
+                        .finally(() => {
+                            setLoading(false)
+                        })
+                } 
             });
 
         } else {
-            Swal.fire("Changes are not saved", "", "info");
+            Swal.fire("So You Changed your Mind ?");
         }
     }
 
@@ -70,26 +76,44 @@ export const DashboardCertificate = () => {
                     certificate && certificate.map((item, index) => {
                         return (
                             <div className='relative group' key={index}>
-                                <div className="card cursor-pointer relative bg-gray-100 border-orange-500 rounded-md shadow-sm">
+                                <div className="card cursor-pointer relative border-orange-500 rounded-md shadow-sm">
                                     <figure>
                                         <ModalImage
                                             small={item?.imageUrl[0] || 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png'}
                                             large={item?.imageUrl[0] || 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png'}
                                             alt={item?.name || "Certificate"}
-                                            className="md:w-[200px] hover:scale-105 duration-150 transition-all ease-in-out object-cover"
+                                            className={`md:w-[200px] ${loading!=false && `opacity-20`} hover:scale-105   duration-150 transition-all ease-in-out object-cover`}
                                             hideDownload={true}
                                             hideZoom={true}
                                         />
                                     </figure>
                                     <div>
-                                        <p className='absolute bottom-2 left-2 text-center font-semibold text-xl text-gray-500 '>
+                                        <p className=' text-center font-semibold text-xl text-gray-500 '>
                                             {capitalizeWords(item?.name)}
                                         </p>
                                     </div>
                                 </div>
-                                <div className='absolute md:group-hover:opacity-100 md:opacity-0 opacity-100  space-x-2 transition-all duration-150  ease-in-out -right-2 -top-5'>
-                                    <button className='btn btn-error btn-dash  rounded-full' onClick={() => handleDelete(item)}  >X</button>
-                                </div>
+
+                                {
+                                    !loading && (
+                                        <div className='absolute md:group-hover:opacity-100 md:opacity-0 opacity-100  space-x-2 transition-all duration-150  ease-in-out -right-2 -top-5'>
+                                            <button className='btn btn-error btn-dash  rounded-full' onClick={() => handleDelete(item)}  >X</button>
+                                        </div>
+                                    )
+                                }
+
+
+
+                                {
+                                    loading==item?._id && (
+                                        <div className='absolute top-1/2 left-1/2  transform -translate-x-1/2 text-gray-900  -translate-y-1/2  '>
+                                            <span className="loading loading-spinner w-[50px] "></span>
+                                        </div>
+                                    )
+
+
+                                }
+
                             </div>
                         )
                     })
