@@ -13,38 +13,39 @@ import 'aos/dist/aos.css';
 // Pump-related testimonials for Liberty Pump
 const testimonials = [
     {
-        name: "Daniel Carter",
-        title: "Facility Manager, Skyline Industries",
-        img: "https://randomuser.me/api/portraits/men/45.jpg",
-        tool: "Submersible Pump",
+        name: "Liam Parker",
+        title: "Event Manager, SonicHire Events",
+        img: "https://randomuser.me/api/portraits/men/33.jpg",
+        tool: "PA System",
         rating: 5,
-        text: "We’ve been using Liberty Pump’s submersible systems for over a year now. The performance has been rock solid—quiet, efficient, and low maintenance. Highly recommended for industrial sites.",
+        text: "Nova Tech’s PA system delivers crisp, clear sound even in large outdoor setups. Easy to operate and highly reliable for live events.",
     },
     {
-        name: "Sophia Bennett",
-        title: "Civil Engineer, AquaFlow Projects",
-        img: "https://randomuser.me/api/portraits/women/58.jpg",
-        tool: "Fire Pump System",
+        name: "Ava Mitchell",
+        title: "AV Consultant, Urban Audio",
+        img: "https://randomuser.me/api/portraits/women/39.jpg",
+        tool: "Outdoor Column Speaker",
         rating: 5,
-        text: "Liberty’s fire pumps are built to last. Easy to install and passed all our pressure tests. Their customer support during commissioning was also outstanding.",
+        text: "The outdoor column speakers from Nova Tech are sleek and powerful. They offer excellent coverage with weatherproof build quality.",
     },
     {
-        name: "Michael Hughes",
-        title: "Municipal Contractor",
-        img: "https://randomuser.me/api/portraits/men/64.jpg",
-        tool: "Deepwell Pump",
-        rating: 5,
-        text: "The deepwell pumps from Liberty Pump deliver excellent flow rate even in demanding environments. Our team was impressed with the build quality and timely delivery.",
-    },
-    {
-        name: "Emma Roberts",
-        title: "Maintenance Technician",
-        img: "https://randomuser.me/api/portraits/women/21.jpg",
-        tool: "Industrial Pump",
+        name: "Noah Foster",
+        title: "Facilities Supervisor, Greenfield School",
+        img: "https://randomuser.me/api/portraits/men/72.jpg",
+        tool: "Indoor Speaker",
         rating: 4,
-        text: "Very satisfied with the durability and service life of Liberty’s industrial pumps. Regular servicing is easy, and the parts are well-documented and accessible.",
+        text: "Nova Tech’s indoor speakers blend in perfectly and provide rich sound for classrooms and hallways. Installation was smooth and clean.",
+    },
+    {
+        name: "Isabella Reed",
+        title: "Systems Integrator, AudioEdge Ltd.",
+        img: "https://randomuser.me/api/portraits/women/63.jpg",
+        tool: "Wall Mount Speaker",
+        rating: 5,
+        text: "We use Nova Tech wall-mount speakers in multiple office installations. Great clarity, and the adjustable bracket design is very user-friendly.",
     },
 ];
+
 
 
 

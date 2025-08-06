@@ -56,7 +56,7 @@ export const Navbar = ({ products, categories }) => {
     return (
         <div className='relative '>
             {/* Main Navbar */}
-            <div className="navbar bg-base-100 shadow-sm md:px-10 px-5 z-20 sticky top-0">
+            <div className="navbar bg-base-100 shadow-sm md:px-1 h-[50px] px-5 z-20 fixed top-0">
                 <div className="navbar-start space-x-4">
                     <div className="dropdown">
                         <label htmlFor="navbar-drawer" className="drawer-button lg:hidden">☰</label>
@@ -161,6 +161,10 @@ export const Navbar = ({ products, categories }) => {
                     </section>
                 </div>
             )}
+
+            <div className='h-[50px]'>
+
+            </div>
         </div>
     );
 };
